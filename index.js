@@ -11,6 +11,7 @@ const helper = require('./helper');
 
 const ask = require('./possibleTeams');
 
+console.log('Starting Battle process');
 async function startBotPlayMatch(browser) {
     const page = await browser.newPage();
     await page.setViewport({
@@ -31,20 +32,23 @@ async function startBotPlayMatch(browser) {
     await page.click('#menu_item_battle');
 
     // LOAD MY CARDS
+    console.log('Getting Player Cards')
     const myCards = await user.getPlayerCards(process.env.ACCOUNT.split('@')[0])
     console.log(process.env.ACCOUNT)
 
     //if quest done claim reward
+    console.log('Checking for quest Reward');
     try {
         await page.waitForSelector('#quest_claim_btn', { timeout: 5000 })
             .then(button => button.click());
     } catch (e) {
-        console.log('no quest reward')
+        console.log('no quest reward');
     }
 
     await page.waitFor(3000);
 
     // LAUNCH the battle
+    console.log('launching battle');
     await page.waitForXPath("//button[contains(., 'BATTLE')]", { timeout: 10000 })
         .then(button => button.click());
     await page.waitFor(30000);
@@ -63,6 +67,7 @@ async function startBotPlayMatch(browser) {
         myCards: myCards
     }
 
+    console.log('finding possible teams');
     const possibleTeams = await ask.possibleTeams(matchDetails);
 
     if (possibleTeams && possibleTeams.length) {
@@ -105,6 +110,7 @@ async function startBotPlayMatch(browser) {
     // }
     if (teamToPlay) {
         page.click('.btn--create-team')[0];
+        console.log('playing team')
     } else {
         throw new Error('Team Selection error');
     }
@@ -136,7 +142,12 @@ async function startBotPlayMatch(browser) {
 }
 
 cron.schedule('*/15 * * * *', async () => {
+<<<<<<< Updated upstream
     const browser = await puppeteer.launch({ headless: false });
+=======
+    const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch({ headless: false , timeout: 60000 });
+>>>>>>> Stashed changes
     try {
         await startBotPlayMatch(browser);
         await browser.close();

@@ -7,6 +7,7 @@ const card = require("./cards")
 //cardColor = (id) => cardsDetails.find(o => o.id === id) ? cardsDetails.find(o => o.id === id).color : '';
 
 const validDecks = ['Red', 'Blue', 'White', 'Black', 'Green']
+//const validDecks = ['Red']
 const colorToDeck = { 'Red': 'Fire', 'Blue': 'Water', 'White': 'Life', 'Black': 'Death', 'Green': 'Earth' }
 
 // const tes = teamIdsArray.forEach(id => {
