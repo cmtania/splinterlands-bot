@@ -185,6 +185,6 @@ module.exports.teamSelection = teamSelection;
 // // console.log([...new Set(summoners)])
 // console.log(summonerColor(27))
 
-// // TO TEST uncomment below:
-// const matchDetails = { mana: 30, rules: '', splinters: ['fire','water','life','earth','death'], myCards: myCards}
-// console.log(possibleTeams(matchDetails))
+// TO TEST uncomment below:
+const matchDetails = { mana: 30, rules: '', splinters: ['fire','water','life','earth','death'], myCards: myCards}
+console.log(possibleTeams(matchDetails));

@@ -1,16 +1,20 @@
 const fs = require('fs');
 
-const history1 = require("./history.json");
-const history2 = require("./historyHigh1.json");
-//const history3 = require("./historyHi.json");
-// const history4 = require("./history20200309.json");
-// const history5 = require("./history20200520.json");
+// Storing the JSON format data in myObject
+var history1 = fs.readFileSync("./history.json");
+var history2 = fs.readFileSync("./historyHigh1.json");
 
-const newHistory = history1.concat(history2)//.concat(history3).concat(history4)
+//Convert to json object
+var history1Object = JSON.parse(history1);
+var history2Object = JSON.parse(history2);
 
-fs.writeFile(`./data/newHistory.json`, JSON.stringify(newHistory), function (err) {
-    if (err) {
-        console.log(err);
-    }
-});
-//this is a test to commit
+var finalHistory = [...history1Object, ...history2Object];//
+
+// Writing to our JSON file
+var finalHistoryObject = JSON.stringify(finalHistory);
+
+fs.writeFile("mainHistory.json", finalHistoryObject, (err) => {
+    // Error checking
+    if (err) throw err;
+    console.log("New data added");
+  });
