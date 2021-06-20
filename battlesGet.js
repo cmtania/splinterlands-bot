@@ -24,39 +24,46 @@ async function getBattleHistory(player = '', data = {}) {
 }
 
 users = [];
-player = 'berindon'
+player = 'abfus'
 const battles = getBattleHistory(player)
     .then(battles => battles.map(
         x => {
             const details = JSON.parse(x.details);
-            return {
-                battle_queue_id_1: x.battle_queue_id_1,
-                battle_queue_id_2: x.battle_queue_id_2,
-                player_1_rating_initial: x.player_1_rating_initial,
-                player_2_rating_initial: x.player_2_rating_initial,
-                winner: x.winner,
-                player_1_rating_final: x.player_1_rating_final,
-                player_2_rating_final: x.player_2_rating_final,
-                player_1: x.player_1,
-                player_2: x.player_2,
-                created_date: x.created_date,
-                match_type: x.match_type,
-                mana_cap: x.mana_cap,
-                current_streak: x.current_streak,
-                ruleset: x.ruleset,
-                inactive: x.inactive,
-                settings: x.settings,
-                block_num: x.block_num,
-                rshares: x.rshares,
-                dec_info: x.dec_info,
-                details_team1: details.team1,
-                details_team2: details.team2,
-                details_prebattle: details.prebattle
+            //return only the winning strategy for the selected player
+            if(x.winner == player){
+                return {
+                    battle_queue_id_1: x.battle_queue_id_1,
+                    battle_queue_id_2: x.battle_queue_id_2,
+                    player_1_rating_initial: x.player_1_rating_initial,
+                    player_2_rating_initial: x.player_2_rating_initial,
+                    winner: x.winner,
+                    player_1_rating_final: x.player_1_rating_final,
+                    player_2_rating_final: x.player_2_rating_final,
+                    player_1: x.player_1,
+                    player_2: x.player_2,
+                    created_date: x.created_date,
+                    match_type: x.match_type,
+                    mana_cap: x.mana_cap,
+                    current_streak: x.current_streak,
+                    ruleset: x.ruleset,
+                    inactive: x.inactive,
+                    settings: x.settings,
+                    block_num: x.block_num,
+                    rshares: x.rshares,
+                    dec_info: x.dec_info,
+                    details_team1: details.team1,
+                    details_team2: details.team2,
+                    details_prebattle: details.prebattle
+                }
+            }else {
+               return {}
             }
         })
     ).then(
         x => {
-            fs.writeFile(`data/${player}_Raw.json`, JSON.stringify(x), function (err) {
+            //removing empty object from the array
+            var finalPlayerData = x.filter(value => JSON.stringify(value) !== '{}');
+            fs.writeFile(`data/playerdata/${player}_Raw.json`, JSON.stringify(finalPlayerData), function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -66,6 +73,6 @@ const battles = getBattleHistory(player)
                 users.push(element.player_1);
             }
             );
-            console.log(users.filter(distinct))
+             console.log(users.filter(distinct))
         }
     )
