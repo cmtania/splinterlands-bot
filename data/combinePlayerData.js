@@ -24,14 +24,14 @@ function combinePlayerData(playerName){
     console.log(filterPlayerDataJson.length,'Final length for mainPlayerData.json');//checking the number of battles retrieved after removing duplicates
     
     //Writing to our main JSON file for the battle history
-    // fs.writeFile(mainDirPath, JSON.stringify(filterPlayerDataJson), (err) => {
-    //     // Error checking
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log("Successfuly completed.")
-    //     }
-    //   });
+    fs.writeFile(mainDirPath, JSON.stringify(filterPlayerDataJson), (err) => {
+        // Error checking
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfuly completed.")
+        }
+      });
 }
 
 combinePlayerData("abfus");//insert player name here to test
